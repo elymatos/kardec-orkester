@@ -1,0 +1,65 @@
+{
+  "name": "fnbr/carma",
+  "description": "CARMA",
+  "license": "GPLv3",
+  "keywords": [
+    "framenet",
+    "annotation",
+    "frames",
+    "constructions"
+  ],
+  "authors": [
+    {
+      "name": "Tiago Torrent",
+      "email": "tiago.torrent@gmail.com"
+    },
+    {
+      "name": "Ely Matos",
+      "email": "admin@ematos.net"
+    }
+  ],
+  "require": {
+    "doctrine/common": "^2.10.0",
+    "doctrine/dbal": "^2.9.2",
+    "psr/log": "^1.0.1",
+    "phpmailer/phpmailer": "~6.0",
+    "aura/session": "^2.1",
+    "php-di/php-di": "^6.2",
+    "ml/json-ld" : "~1.0",
+    "guzzlehttp/guzzle": "^6.0",
+    "monolog/monolog": "^2.1",
+    "phpfastcache/phpfastcache": "^7.0",
+    "php-console/php-console": "*",
+    "auth0/auth0-php": "^7.4",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-ds": "*",
+    "ramsey/uuid": "^4.1",
+    "jenssegers/blade": "^1.4",
+    "php-ds/php-ds": "^1.2",
+    "slim/slim": "4.*",
+    "slim/psr7": "^1.2",
+    "ext-pdo": "*",
+    "kodus/file-cache": "^1.1",
+    "lcobucci/jwt": "3.4.x-dev",
+    "triagens/arangodb": "^3.6",
+    "react/promise": "~2.2",
+    "reactivex/rxphp": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "satooshi/php-coveralls": "~1.0",
+    "react/event-loop": "^1.0 || ^0.5 || ^0.4.2"
+  },
+  "autoload": {
+    "files": [
+      "orkester/functions.php"
+    ],
+    "psr-4": {
+      "App\\": "app/",
+      "Orkester\\": "orkester/"
+    },
+    "classmap": [
+    ]
+  }
+}
