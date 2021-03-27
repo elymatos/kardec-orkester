@@ -1,2 +1,2 @@
 # kardec-orkester
-App para o Projeto Kardec
+Projeto Kardec - Orkester App
