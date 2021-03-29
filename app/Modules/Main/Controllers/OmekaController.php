@@ -27,5 +27,9 @@ class OmekaController extends MController
         return $this->renderList($list);
     }
 
+    public function html() {
+        return $this->render();
+    }
+
 }
 
