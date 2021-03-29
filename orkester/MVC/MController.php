@@ -295,12 +295,13 @@ class MController
      * @param string $viewName Nome da view. Se não informado, assume que é o nome da action.
      * @param object $parameters Objeto Data.
      */
-    public function render(string $viewName = '', array $parameters = [])
+    public function render(string $viewName = '', array $parameters = []): Response
     {
         $this->encryptData();
         $viewFile = $this->getViewFile($viewName, $parameters);
         $view = new MView($viewFile);
         $this->result = $view->getResult($this->httpMethod, $this->resultFormat);
+        return $this->result->apply($this->request, $this->response);
     }
 
     /**
