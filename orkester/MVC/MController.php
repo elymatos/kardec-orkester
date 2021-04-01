@@ -323,7 +323,7 @@ class MController
         $base = str_replace("Controllers", "Views", $base);
         $base = str_replace("Controller", "", $base);
         $path = str_replace("\\", "/", Manager::getAppPath() . "/" . $base . '/' . $view);
-        $extensions = ['.vue', '.blade.php', '.js', '.html'];
+        $extensions = ['.html', '.blade.php', '.js', '.vue'];
         $viewFile = '';
         foreach ($extensions as $extension) {
             $fileName = $path . $extension;
