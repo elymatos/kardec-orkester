@@ -16,6 +16,7 @@ class MTemplate
     public function __construct($path = '')
     {
         $this->path = $path;
+        mdump('=='.$path);
         $cachePath = Manager::getOptions('tmpPath') . '/templates';
         $this->engine = new Blade($this->path, $cachePath);
         $this->engine->addExtension('vue','blade');

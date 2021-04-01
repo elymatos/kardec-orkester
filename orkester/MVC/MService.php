@@ -7,6 +7,7 @@ use Orkester\Manager;
 class MService
 {
     protected MRepositoryORM $repository;
+    protected object $data;
 
     public function __construct()
     {
