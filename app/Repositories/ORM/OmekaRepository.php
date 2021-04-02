@@ -8,7 +8,8 @@ class OmekaRepository extends MRepositoryORM
 {
     private array $locale;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct('kardec');
         $this->locale = [
             'fr' => 'fr',
@@ -111,6 +112,36 @@ order by 2
 LIMIT {$limit} offset {$offset}
 ";
         mdump($command);
+        return $this->executeQuery($command);
+    }
+
+    public function listFiles(int $idItem)
+    {
+        $command = "
+        SELECT f.filename, f.original_filename original
+FROM omeka_files f
+WHERE (f.item_id = {$idItem})
+AND (f.mime_type = 'image/jpeg')
+ORDER BY f.id
+        ";
+        return $this->executeQuery($command);
+
+    }
+
+    public function listItemTags(int $idItem, string $lang = 'pt')
+    {
+        $locale = $this->locale[$lang];
+        $field = 't.name';
+        if ($lang == 'fr') {
+            $field = 't.name_fr';
+        }
+        $command = "
+select t.id, {$field} name
+from omeka_tags t 
+join omeka_records_tags r on (r.tag_id = t.id)
+where (record_id = {$idItem})
+order by name
+        ";
         return $this->executeQuery($command);
     }
 

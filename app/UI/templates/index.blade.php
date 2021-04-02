@@ -14,9 +14,9 @@ use Orkester\Manager;
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Carrega o jQuery - obrigatório em todos os temas -->
-    <script type="text/javascript" src="/scripts/jquery-2.1.1.min.js"></script>
+    <script type='text/javascript' id="nb-jquery" src='https://projetokardec.ufjf.br/wp-includes/js/jquery/jquery.min.js?ver=3.5.1' id='jquery-core-js'></script>
 
-
+<!--
     <link rel='stylesheet' id='formidable-css'  href='https://projetokardec.ufjf.br/wp-content/plugins/formidable/css/formidableforms.css?ver=1311509' type='text/css' media='all' />
     <link rel='stylesheet' id='frm_fonts-css'  href='https://projetokardec.ufjf.br/wp-content/plugins/formidable/css/frm_fonts.css?ver=4.09.05' type='text/css' media='all' />
     <link rel='stylesheet' id='wp-block-library-css'  href='https://projetokardec.ufjf.br/wp-includes/css/dist/block-library/style.min.css?ver=5.6' type='text/css' media='all' />
@@ -41,6 +41,17 @@ use Orkester\Manager;
     </style>
     <link rel='stylesheet' id='hueman-font-awesome-css'  href='https://projetokardec.ufjf.br/wp-content/themes/hueman/assets/front/css/font-awesome.min.css?ver=1617028102' type='text/css' media='all' />
     <link rel='stylesheet' id='jetpack_css-css'  href='https://projetokardec.ufjf.br/wp-content/plugins/jetpack/css/jetpack.css?ver=9.5' type='text/css' media='all' />
+    -->
+    <!--
+    <link rel="stylesheet" href="https://orkester.projetokardec.ufjf.br/js/PhotoSwipe/dist/photoswipe.css">
+    <link rel="stylesheet" href="https://orkester.projetokardec.ufjf.br/js/PhotoSwipe/dist/default-skin/default-skin.css">
+    <script src="https://orkester.projetokardec.ufjf.br/js/PhotoSwipe/dist/photoswipe.min.js"></script>
+    <script src="https://orkester.projetokardec.ufjf.br/js/PhotoSwipe/dist/photoswipe-ui-default.min.js"></script>
+    -->
+    <script src="https://orkester.projetokardec.ufjf.br/js/jquery-viewer/dist/viewer.js"></script><!-- Viewer.js is required -->
+    <link  href="https://orkester.projetokardec.ufjf.br/js/jquery-viewer/dist/viewer.css" rel="stylesheet">
+    <script src="https://orkester.projetokardec.ufjf.br/js/jquery-viewer/dist/jquery-viewer.js"></script>
+
 </head>
 <body class="page-template-default page logged-in no-customize-support wp-embed-responsive sek-hide-rc-badge col-1c full-width header-desktop-sticky header-mobile-sticky chrome">
     {!! $page->generate('content') !!}

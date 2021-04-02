@@ -108,4 +108,15 @@ class OmekaService extends MService
         return $list;
     }
 
+    public function getItem(int $idItem)
+    {
+        $client = new ClientService();
+        $item = $client->getItem($idItem);
+        $item->id = $idItem;
+        $item->files = $this->repository->listFiles($idItem);
+        $item->tags = $this->repository->listItemTags($idItem);
+        return $item;
+    }
+
+
 }
