@@ -84,4 +84,30 @@ class ClientService
             return '';
         }
     }
+
+    public function getItem($idItem)
+    {
+
+        $client = new Client([
+            'base_uri' => 'https://omeka.projetokardec.ufjf.br',
+            'timeout' => 300.0,
+        ]);
+
+        try {
+            $response = $client->request('get', "/items/show/{$idItem}", [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'text/html; charset=UTF-8'
+                ],
+                //'query' => [
+                //]
+            ]);
+            $body = json_decode($response->getBody());
+            return $body;
+        } catch (\Exception $e) {
+            echo $e->getMessage() . "\n";
+            return '';
+        }
+    }
+
 }
