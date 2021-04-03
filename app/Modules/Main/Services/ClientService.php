@@ -85,22 +85,25 @@ class ClientService
         }
     }
 
-    public function getItem($idItem)
+    public function getItem($idItem, string $lang = 'pt')
     {
 
         $client = new Client([
-            'base_uri' => 'https://omeka.projetokardec.ufjf.br',
+            'base_uri' => 'https://omeka-wp.projetokardec.ufjf.br',
             'timeout' => 300.0,
         ]);
 
         try {
+            $query = [];
+            if ($lang != 'pt') {
+                $query['lang'] = $lang;
+            }
             $response = $client->request('get', "/items/show/{$idItem}", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'text/html; charset=UTF-8'
                 ],
-                //'query' => [
-                //]
+                'query' => $query
             ]);
             $body = json_decode($response->getBody());
             return $body;

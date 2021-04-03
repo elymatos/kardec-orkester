@@ -8,10 +8,10 @@ $s = [
 ];
 
 if ($data->lang == 'pt') {
-    $href = "https://projetokardec.ufjf.br/searchtestimage?";
+    $href = "https://projetokardec.ufjf.br/imagens?";
 }
 if ($data->lang == 'fr') {
-    $href = "https://projetokardec.ufjf.br/searchtestfr?";
+    $href = "https://projetokardec.ufjf.br/fr/images?";
 }
 $query = [
     'idColecao' => $data->idColecao,
@@ -23,12 +23,13 @@ $href .= http_build_query($query);
 $count = count($data->images);
 if ($count > 0) {
 ?>
-
-<div class="ui cards">
+<div id="imageGallery" class="ui cards">
     @foreach($data->images as $item)
         <div class="card">
             <div class="image">
-                <img src="http://omeka.projetokardec.ufjf.br/files/thumbnails/{{$item->filename}}" class="imageCard">
+                <img data-original="http://omeka-wp.projetokardec.ufjf.br/files/fullsize/{{$item->filename}}"
+                     src="http://omeka-wp.projetokardec.ufjf.br/files/thumbnails/{{$item->filename}}"
+                     itemprop="thumbnail" style="width:310px;height:200px"/>
             </div>
             <div class="content">
                 <a class="header" href="#">{{$item->title}}</a>
@@ -85,6 +86,25 @@ $previous = $current - 1;
 <?php
 }
 ?>
+
+<script>
+    window.onload = function () {
+        'use strict';
+
+        var Viewer = window.Viewer;
+        var console = window.console || {
+            log: function () {
+            }
+        };
+        var pictures = document.querySelector('#imageGallery');
+        var options = {
+            // inline: true,
+            url: 'data-original',
+        };
+        var viewer = new Viewer(pictures, options);
+    }
+
+</script>
 
 <style>
     .ui.card > .content > .header:not(.ui), .ui.cards > .card > .content > .header:not(.ui) {

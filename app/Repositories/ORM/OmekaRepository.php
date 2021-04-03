@@ -21,7 +21,7 @@ class OmekaRepository extends MRepositoryORM
     {
         $locale = $this->locale[$lang];
         $field = 'name';
-        if ($lang == 'fr') {
+        if ($locale == 'fr') {
             $field = 'name_fr';
         }
         $command = "
@@ -45,6 +45,21 @@ order by translation;
         return $this->executeQuery($command);
     }
 
+    public function getColecao($idColecao, string $lang = 'pt')
+    {
+        $locale = $this->locale[$lang];
+        $command = "
+SELECT record_id id, translation name
+FROM omeka_multilanguage_translations
+WHERE (record_type='Collection')
+AND (locale_code = '{$locale}')
+AND (record_id = {$idColecao})
+order by translation;
+        ";
+        $result = $this->executeQuery($command);
+        return $result[0]['name'];
+    }
+
     public function listAnos()
     {
         $command = "
@@ -59,6 +74,11 @@ order by 1
     public function listItems(object $data)
     {
         $locale = $this->locale[$data->lang];
+        $idItem = '';
+        if ($data->idItem != '') {
+            $id = substr($data->idItem, 0, -1);
+            $idItem =  " and (it.id = {$id}) ";
+        }
         $idColecao = ($data->idColecao != '') ? " and (it.collection_id = {$data->idColecao}) " : '';
         $ano = ($data->ano != '') ? " and (substr(e2.text,1,4) = '{$data->ano}')" : '';
         $tag = ($data->tag != '') ? " and (it.id in (select record_id from omeka_records_tags where (record_type = 'Item') and (tag_id = {$data->tag}) ))" : '';
@@ -66,7 +86,7 @@ order by 1
         $offset = ($data->page - 1) * $limit;
         $command = "
 select * from (
-SELECT it.id, t.translation title, e2.text date
+SELECT it.id, t.translation title, e2.text date, it.collection_id idCollection
 FROM omeka_multilanguage_translations t
 JOIN omeka_element_texts e2 on (t.record_id = e2.record_id)
 JOIN omeka_items it on (t.record_id = it.id)
@@ -75,6 +95,7 @@ and (it.item_type_id = 20)
 and (e2.element_id = 40)
 and (t.record_type = 'Item')
 and (t.locale_code = '{$locale}')
+{$idItem}
 {$idColecao}
 {$ano}
 {$tag}
@@ -132,7 +153,7 @@ ORDER BY f.id
     {
         $locale = $this->locale[$lang];
         $field = 't.name';
-        if ($lang == 'fr') {
+        if ($locale == 'fr') {
             $field = 't.name_fr';
         }
         $command = "
