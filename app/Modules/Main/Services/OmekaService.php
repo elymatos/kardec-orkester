@@ -89,6 +89,7 @@ class OmekaService extends MService
                 'id' => $item['id'],
                 'title' => $item['title'],
                 'date' => $item['date'],
+                'idCollection' => $item['idCollection'],
             ];
         }
         return $list;
@@ -111,10 +112,13 @@ class OmekaService extends MService
     public function getItem(int $idItem)
     {
         $client = new ClientService();
-        $item = $client->getItem($idItem);
+        $item = $client->getItem($idItem, $this->data->lang);
         $item->id = $idItem;
+        $item->idCollection = $item->collection;
+        $item->collection = $this->repository->getColecao($item->collection, $this->data->lang);
         $item->files = $this->repository->listFiles($idItem);
-        $item->tags = $this->repository->listItemTags($idItem);
+        $item->tags = $this->repository->listItemTags($idItem, $this->data->lang);
+        mdump($item);
         return $item;
     }
 

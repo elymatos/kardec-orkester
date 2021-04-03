@@ -13,6 +13,8 @@ if ($data->lang == 'pt') {
 if ($data->lang == 'fr') {
     $href = "https://projetokardec.ufjf.br/searchtestfr?";
 }
+$code = [1 => 'C', 2 => 'K', 3 => 'F'];
+
 $query = [
     'idColecao' => $data->idColecao,
     'tag' => $data->tag,
@@ -25,10 +27,20 @@ if ($count > 0) {
 ?>
 <div class="ui cards">
     @foreach($data->items as $item)
+        @php
+            list($y, $m, $d) = explode('/', $item->date);
+            $date = "{$d}/{$m}/{$y}";
+            $itemCode = $item->id . $code[$item->idCollection];
+        @endphp
         <div class="card">
             <div class="content">
-                <a class="header" href="#">{{$item->title}}</a>
-                <div class="meta">{{$item->date}}</div>
+                <a class="header" href="https://projetokardec.ufjf.br/item-{{$lang}}?id={{$item->id}}">
+                    <div class="ui label right floated">
+                        <i class="file alternate icon"></i>{{$itemCode}}
+                    </div>
+                    <div>{{$item->title}}</div>
+                </a>
+                <div class="description">{{$date}}</div>
             </div>
         </div>
     @endforeach
@@ -41,11 +53,11 @@ $previous = $current - 1;
     <div class="ui buttons">
         <?php
         if ($previous > 0) {
-            $hrefpg = $href . "&pg={$previous}";
+        $hrefpg = $href . "&pg={$previous}";
         ?>
         <button class="compact ui icon button">
             <a href="{{$hrefpg}}">
-            <i class="left chevron icon"></i>
+                <i class="left chevron icon"></i>
             </a>
         </button>
         <?php
@@ -58,7 +70,7 @@ $previous = $current - 1;
             $hrefpg = $href . "&pg={$current}";
             ?>
             <a href="{{$hrefpg}}">
-            {{$s['pagina'][$lang]}} {{$current}}
+                {{$s['pagina'][$lang]}} {{$current}}
             </a>
         </button>
     </div>
@@ -70,7 +82,7 @@ $previous = $current - 1;
         ?>
         <button class="compact ui right icon button">
             <a href="{{$hrefpg}}">
-            <i class="right chevron icon"></i>
+                <i class="right chevron icon"></i>
             </a>
         </button>
         <?php
@@ -88,6 +100,12 @@ $previous = $current - 1;
         font-weight: 700;
         font-size: 1.05em;
         margin-top: -.21425em;
+        line-height: 1.05em;
+    }
+
+    .ui.card > .content > .header:not(.ui), .ui.cards > .card > .content > .description {
+        font-weight: 700;
+        font-size: 1.05em;
         line-height: 1.05em;
     }
 

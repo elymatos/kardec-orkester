@@ -66,5 +66,10 @@ class OmekaController extends MController
         return $this->render();
     }
 
+    public function socialSharing() {
+        return $this->render();
+    }
+
+
 }
 
