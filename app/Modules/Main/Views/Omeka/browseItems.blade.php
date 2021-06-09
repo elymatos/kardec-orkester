@@ -8,10 +8,10 @@ $s = [
 ];
 
 if ($data->lang == 'pt') {
-    $href = "https://projetokardec.ufjf.br/searchtest?";
+    $href = "https://projetokardec.ufjf.br/manuscritos?";
 }
 if ($data->lang == 'fr') {
-    $href = "https://projetokardec.ufjf.br/searchtestfr?";
+    $href = "https://projetokardec.ufjf.br/manuscrits?";
 }
 $code = [1 => 'C', 2 => 'K', 3 => 'F'];
 

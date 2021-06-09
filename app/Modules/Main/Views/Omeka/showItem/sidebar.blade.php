@@ -17,6 +17,7 @@ $s = [
     'titulo' => ['pt' => 'Título', 'fr' => 'Titre'],
     'data' => ['pt' => 'Data', 'fr' => 'Date'],
     'colecao' => ['pt' => 'Acervo', 'fr' => 'Collection'],
+    'identificador' => ['pt' => 'Índice', 'fr' => 'Indice'],
     'producao' => ['pt' => 'Produção', 'fr' => 'Production'],
     'transcricao' => ['pt' => 'Transcrição', 'fr' => 'Transcription'],
     'traducao' => ['pt' => 'Tradução', 'fr' => 'Traduction'],
@@ -25,6 +26,7 @@ $s = [
     'citar_como' => ['pt' => 'Citar como', 'fr' => 'Citer comment'],
     'download' => ['pt' => 'Download', 'fr' => 'Telecharger des fichiers'],
     'licenca' => ['pt' => $licenca['pt'], 'fr' => $licenca['fr']],
+    'manuscritos' => ['pt' => 'Manuscritos', 'fr' => 'Manuscrits'],
 ];
 ?>
 
@@ -49,6 +51,11 @@ $s = [
                     <div class="event">
                         <div class="content">
                             <span class="sblabel">{{$s['colecao'][$lang]}} : </span>{{$data->item->collection}}
+                        </div>
+                    </div>
+                    <div class="event">
+                        <div class="content">
+                            <span class="sblabel">{{$s['identificador'][$lang]}} : </span>{{$dublinCore["Identifier"][0]}}
                         </div>
                     </div>
                 </div>
@@ -119,8 +126,8 @@ $s = [
             <div class="content">
                 <div class="ui small feed">
                     <div class="description">
-                        <img height="32" class="cc_logo" src="https://omeka-wp.projetokardec.ufjf.br/themes/kardec-theme-3/css/images/by-nc-nd.png" style="vertical-align:middle;">
-                        {!! $s['licenca'][$lang] !!}
+                        <div><img height="32" class="cc_logo" src="https://omeka-wp.projetokardec.ufjf.br/themes/kardec-theme-3/css/images/by-nc-nd.png" style="vertical-align:middle;"></div>
+                        <div></div>{!! $s['licenca'][$lang] !!}</div>
                     </div>
                     <div class="event">
                         <div class="content">
@@ -129,7 +136,23 @@ $s = [
                             $fileName = "projetokardec_item_" . $itemCode;
                             $pdfPath = "https://omeka-wp.projetokardec.ufjf.br/items/pdf/{$id}";
                             ?>
-                            <div><i class="file pdf icon"></i><a href="{!! $pdfPath !!}" target="_blank">{{$fileName}}</a></div>
+                            <div class="download"><i class="file pdf icon"></i><a href="{!! $pdfPath !!}" target="_blank">{{$fileName}}</a>
+                                <div class="sblabel">{{$s['manuscritos'][$lang]}}</div>
+                                <?php
+                                foreach($data->item->files as $file) {
+                                mdump($file);
+                                $pattern = "/_([0-9][0-9][0-9])_/i";
+                                $matches = [];
+                                preg_match($pattern, $file['original'], $matches);
+                                $caption = $matches[1];
+                                ?>
+                                <a download="{{$file['original']}}" href="http://omeka-wp.projetokardec.ufjf.br/files/fullsize/{{$file['filename']}}" target="_blank">
+                                    {{$caption}}
+                                </a>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
 
@@ -159,10 +182,32 @@ $s = [
 
     .sidebarItem .sbshow .ui.card .content {
         font-size: 1.125em;
+        padding: 0.8em 0.8em;
     }
 
     .sidebarItem .sbshow .ui.card .content .sblabel{
         font-weight: bold;
+    }
+
+    .sidebarItem .sbshow .ui.card .content .event .content {
+        font-size: 1.125em;
+        padding: 0;
+        line-height: 1.5em;
+    }
+
+    .sidebarItem .sbshow .ui.card .content .description {
+        line-height: 1.5em;
+    }
+
+    .sidebarItem .sbshow .ui.card .content .event .content .download {
+        font-size: 0.75em;
+        padding: 0;
+        line-height: 0.75em;
+    }
+
+    .sidebarItem .sbshow .ui.card .content .event .content .download .sblabel {
+        font-size: 1em;
+        padding: 0.8em 0 0.8em 0;
     }
 
     .cc_logo {
