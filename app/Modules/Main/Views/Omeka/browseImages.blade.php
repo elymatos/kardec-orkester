@@ -26,10 +26,10 @@ if ($count > 0) {
 <div id="imageGallery" class="ui cards">
     @foreach($data->images as $item)
         <div class="card">
-            <div class="image">
+            <div class="image"  style="width:310px;height:200px; overflow: hidden;">
                 <img data-original="http://omeka-wp.projetokardec.ufjf.br/files/fullsize/{{$item->filename}}"
                      src="http://omeka-wp.projetokardec.ufjf.br/files/thumbnails/{{$item->filename}}"
-                     itemprop="thumbnail" style="width:310px;height:200px"/>
+                     itemprop="thumbnail"/>
             </div>
             <div class="content">
                 <a class="header" href="#">{{$item->title}}</a>

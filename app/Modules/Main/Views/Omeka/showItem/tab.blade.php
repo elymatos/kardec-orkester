@@ -5,7 +5,7 @@ $s = [
     'traducao' => ['pt' => 'Tradução', 'fr' => 'Traduction'],
     'transcricao' => ['pt' => 'Transcrição', 'fr' => 'Transcription'],
     'manuscritos' => ['pt' => 'Manuscritos', 'fr' => 'Manuscrits'],
-    'datas_proximas' => ['pt' => 'Datas próximas', 'fr' => 'Prochaines dates'],
+    'datas_proximas' => ['pt' => 'Manuscritos em datas próximas', 'fr' => 'Manuscrits en dates proches'],
     'sem_traducao' => ['pt' => 'Não há traduções para este item.', 'fr' => 'Il n\'y a pas de traductions pour cet article.'],
     'sem_transcricao' => ['pt' => 'Não há transcrições para este item.', 'fr' => 'Il n\'y a pas de transcriptions pour cet article.'],
 ];

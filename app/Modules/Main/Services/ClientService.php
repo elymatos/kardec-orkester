@@ -10,7 +10,7 @@ class ClientService
     {
 
         $client = new Client([
-            'base_uri' => 'https://omeka.projetokardec.ufjf.br',
+            'base_uri' => 'https://omeka-wp.projetokardec.ufjf.br',
             'timeout' => 300.0,
         ]);
 
@@ -35,7 +35,7 @@ class ClientService
     {
 
         $client = new Client([
-            'base_uri' => 'https://omeka.projetokardec.ufjf.br',
+            'base_uri' => 'https://omeka-wp.projetokardec.ufjf.br',
             'timeout' => 300.0,
         ]);
 
@@ -44,9 +44,9 @@ class ClientService
             if ($text != '') {
                 $query['search'] = $text;
             }
-            if ($itemType != '') {
-                $query['item_type'] = $itemType;
-            }
+            //if ($itemType != '') {
+            //    $query['item_type'] = $itemType;
+            //}
             $response = $client->request('get', "/api/items", [
                 'headers' => [
                     'Accept' => 'application/json',
@@ -66,7 +66,7 @@ class ClientService
     public function tags()
     {
         $client = new Client([
-            'base_uri' => 'https://omeka.projetokardec.ufjf.br',
+            'base_uri' => 'https://omeka-wp.projetokardec.ufjf.br',
             'timeout' => 300.0,
         ]);
 
@@ -98,7 +98,7 @@ class ClientService
             if ($lang != 'pt') {
                 $query['lang'] = $lang;
             }
-            $response = $client->request('get', "/items/show/{$idItem}", [
+            $response = $client->request('get', "/items/get/{$idItem}", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'text/html; charset=UTF-8'

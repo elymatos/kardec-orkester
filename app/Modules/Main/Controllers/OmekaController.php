@@ -30,6 +30,13 @@ class OmekaController extends MController
         return $this->renderList($list);
     }
 
+    public function fullTextSearch()
+    {
+        $omekaService = Manager::getContainer()->get(OmekaService::class);
+        $list = $omekaService->fullTextSearch($this->data->search);
+        return $this->renderList($list);
+    }
+
     public function formSearch()
     {
         mdump($this->data);
@@ -70,6 +77,9 @@ class OmekaController extends MController
         return $this->render();
     }
 
+    public function timeline() {
+        return $this->render();
+    }
 
 }
 
