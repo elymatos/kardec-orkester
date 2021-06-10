@@ -35,6 +35,9 @@ AND MATCH (s2.text) AGAINST ('{$search}')        ";
 
     public function fullTextSearchLike(string $search = '')
     {
+        if (trim($search) == '') {
+            return [];
+        }
         $firstWords = explode(' ', $search);
         $words = [];
         foreach ($firstWords as $i => $word) {
