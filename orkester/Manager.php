@@ -89,7 +89,7 @@ class Manager
     static private MAjax $ajax;
     static private MFrontController $frontController;
     static private bool $isAjax = false;
-    static private MLog $log;
+    static private ?MLog $log = NULL;
     static private MAuth $auth;
     static private object $data;
     static private array $databases = [];
