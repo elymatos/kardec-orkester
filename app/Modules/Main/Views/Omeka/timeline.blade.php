@@ -7,6 +7,10 @@ $baseURL = "https://orkester.projetokardec.ufjf.br";
 <link href="{{$baseURL}}/js/timeline/style.css" rel="stylesheet">
 <link href="{{$baseURL}}/js/timeline/datatables.min.css" rel="stylesheet">
 
+<div>
+    <p>Clique em uma das barras correspondentes a cada ano ou sobre o circulo correspondente a um evento. Percorra a lista de itens ou use o campo 'Filtro' para pesquisar nos títulos e descrições.</p>
+</div>
+
 <div id="block-system-main" class="block block-system">
     <div>
         <div class="darwin-timeline-container" >
@@ -16,15 +20,6 @@ $baseURL = "https://orkester.projetokardec.ufjf.br";
                         <main id="timeline">
 
                         </main>
-                        <aside id="timeLineIntro">
-
-                            <p>To get started, click on any year in the chart, or pick an event. Then
-                                scroll up and down through a chronological list of all
-                                letters. Use the filter to search for names and key words. Click on the
-                                bars within each year to jump to the letters from a particular day. Or
-                                close that year and choose another.
-                            </p>
-                        </aside>
                     </div>
                 </div>
             </div>
@@ -52,28 +47,4 @@ $baseURL = "https://orkester.projetokardec.ufjf.br";
         </div>
     </div>
 
-</div><!--
-<div class="darwin-timeline-container">
-    <div id="block-darwin-letter-timeline-darwin-timeline-chart" style="min-height: auto;">
-        <div>
-            <div id="darwin_timeline_chart_content">
-                <main id="timeline" style="height: 330.8px;">
-
-                    <section id="bars"></section>
-                </main>
-                <aside id="timeLineIntro">
-
-                    <p>To get started, click on any year in the chart, or pick an event. Then
-                        scroll up and down through a chronological list of all
-                        letters. Use the filter to search for names and key words. Click on the
-                        bars within each year to jump to the letters from a particular day. Or
-                        close that year and choose another.
-                    </p>
-                </aside>
-            </div>
-        </div>
-    </div>
-    <div id="block-darwin-letter-timeline-darwin-timeline-letters">
-    </div>
 </div>
--->
