@@ -87,7 +87,7 @@
 
 //    $.getJSON("/sites/all/modules/darwin_letter_timeline/timeline-gen.js", function (data) {
 //     $.getJSON("/sites/all/modules/darwin_letter_timeline/timeline-new.js", function (data) {
-                $.getJSON(baseURL + "/js/timeline/letters-timeline-json-pt.json", function (data) {
+                $.getJSON("/wp-content/uploads/timeline/letters-timeline-json-pt.json", function (data) {
 
                     // filter letters by canonical name
                     if (opts.filterCanonicalRx) {
@@ -252,7 +252,7 @@
                      * }
                      */
                     if (opts.showLifeEvents) {
-                        $.getJSON(baseURL + "/js/timeline/timeline-events-json-pt.json", function (data) {
+                        $.getJSON("wp-content/uploads/timeline/timeline-events-json-pt.json", function (data) {
                             if (data['top_level']) {
                                 lifeEvents = data;
                                 for (var k = 0; k < data['top_level'].length; k++) {
