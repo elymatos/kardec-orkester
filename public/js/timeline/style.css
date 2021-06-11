@@ -566,31 +566,37 @@ table.dataTable tbody tr.active-letter p {
 }
 
 #lifeEvent-detail {
+	/*
 	width: 60%;
 	min-height: 320px;
 	background-color: white;
 	padding: 15px;
 	border: 4px solid #666;
 	box-shadow: 0 0 5px #666;
+
+	 */
 	/*position: absolute;*/
+	/*top: 60px;*/
+	/*
 	position: fixed;
 	left: 20%;
-	/*top: 60px;*/
 	top: 25%;
-	z-index: 100;
+	z-index: 1001;
 	transition: opacity 1s;
 	-moz-transition: opacity 1s;
 	-webkit-transition: opacity 1s;
 	-o-transition: opacity 1s;
 	-ms-transition: opacity 1s;
 	opacity: 0;
+
+	 */
 }
 #lifeEvent-detail.shown {
-	opacity: 1;
+	/*opacity: 1;*/
 }
 
 #lifeEvent-detail .inner {
-	position: relative;
+	/*position: relative;*/
 }
 
 #lifeEvent-close {
