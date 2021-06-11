@@ -81,10 +81,15 @@
 
                 //@dbgIE11
                 // console.log('createTimeline');
+                var lettersURL = "https://projetokardec.ufjf.br/wp-content/uploads/timeline/letters-timeline-json-pt.json";
+                var eventsURL = "https://projetokardec.ufjf.br/wp-content/uploads/timeline/timeline-events-json-pt.json";
+
+                //var lettersURL = "/js/timeline/letters-timeline-json-pt.json";
+                //var eventsURL = "/js/timeline/timeline-events-json-pt.json";
 
 //    $.getJSON("/sites/all/modules/darwin_letter_timeline/timeline-gen.js", function (data) {
 //     $.getJSON("/sites/all/modules/darwin_letter_timeline/timeline-new.js", function (data) {
-                $.getJSON("https://projetokardec.ufjf.br/wp-content/uploads/timeline/letters-timeline-json-pt.json", function (data) {
+                $.getJSON(lettersURL, function (data) {
 
                     // filter letters by canonical name
                     if (opts.filterCanonicalRx) {
@@ -249,7 +254,7 @@
                      * }
                      */
                     if (opts.showLifeEvents) {
-                        $.getJSON("https://projetokardec.ufjf.br/wp-content/uploads/timeline/timeline-events-json-pt.json", function (data) {
+                        $.getJSON(eventsURL, function (data) {
                             if (data['top_level']) {
                                 lifeEvents = data;
                                 for (var k = 0; k < data['top_level'].length; k++) {
@@ -778,6 +783,7 @@
                                     $("#tooltip").hide();
                                 });
 
+                                console.log('in year');
                                 lifeEvent.click(function () {
                                     if (!lifeEventDetailShown) {
                                         showTimelineEventDetail($(this).data('event'));
@@ -789,6 +795,71 @@
                     }
 
                     function showTimelineEventDetail(event) {
+
+                        /*
+                        <div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Profile Picture
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img src="/images/avatar/large/chris.jpg">
+    </div>
+    <div class="description">
+      <div class="ui header">We've auto-chosen a profile image for you.</div>
+      <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+      <p>Is it okay to use this photo?</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Nope
+    </div>
+    <div class="ui positive right labeled icon button">
+      Yep, that's me
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+
+                         */
+                        console.log(event);
+                        // flag to say this is on display
+                        lifeEventDetailShown = true;
+                        $("#tooltip").hide();
+
+                        // find or create detail popup
+                        // for blurb about location, and letters list
+                        //var div = timelineContainer.find('#lifeEvent-detail');
+                        var div = $('body').find('#lifeEvent-detail');
+
+                        //if (div.length) {
+                        //    div.remove()
+                        //}
+                        //div.children().remove();
+                        //if (!div.length) {
+                        //    div = $('<div id="lifeEvent-detail" class="ui modal"></div>');
+                        //    timelineContainer.find('#timeline').append(div);
+                        //}
+
+                        var header = div.find('.header');
+                        header.text(event['display_date']);
+
+                        var title = div.find('.title');
+                        title.text(event['title']);
+
+                        var content = div.find('.description');
+                        console.log(content);
+                        content.text(event['body']);
+
+                        //console.log('show');
+                        $('.ui.modal')
+                            .modal('show')
+                        ;
+
+                        lifeEventDetailShown = false;
+
+                        /*
                         // flag to say this is on display
                         lifeEventDetailShown = true;
                         $("#tooltip").hide();
@@ -812,23 +883,6 @@
                         inner.append($('<h3 class="lifeEvent-title"></h3>').text(event['title']));
                         inner.append($('<div class="lifeEvent-body"></div>').html(event['body']));
 
-                        // // list of related letters
-                        // if (event['letters']) {
-                        //   inner.append($('<h3 class="lifeEvent-subtitle">Letters</h3>'));
-                        //   var ul = $('<ul class="lifeEvent-letters"></ul>');
-                        //
-                        //   var letter, li, a;
-                        //   for (var i in event['letters']) {
-                        //     letter = event['letters'][i];
-                        //     li = $('<li/>');
-                        //     a = $('<a target="_blank"></a>').html(letter['title']).attr('href', letter['url']);
-                        //     li.append(a);
-                        //     ul.append(li);
-                        //   }
-                        //
-                        //   inner.append(ul);
-                        // }
-
                         inner.find('#lifeEvent-close').click(function () {
                             timelineContainer.find('#lifeEvent-detail').remove();
                             $('#lifeEvent-blocker').remove();
@@ -845,6 +899,8 @@
                             blocker.addClass('shown');
                             div.addClass('shown');
                         }, 0);
+
+                         */
                     }
 
                     timelineContainer.find(".year").on("click", function (e) {
