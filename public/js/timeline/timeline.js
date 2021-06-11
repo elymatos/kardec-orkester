@@ -10,9 +10,6 @@
          */
         return this.each(function () {
 
-            var baseURL = "https://orkester.projetokardec.ufjf.br";
-            //var baseURL = "http://localhost:8900";
-
             var timelineContainer = $(this);
 
             var $table;
@@ -73,6 +70,9 @@
              * create timeline when ready
              */
             function createTimeline() {
+
+                var baseURL = "https://orkester.projetokardec.ufjf.br";
+                //var baseURL = "http://localhost:8900";
 
                 var letterDate = opts.defaultLetterDate;
 

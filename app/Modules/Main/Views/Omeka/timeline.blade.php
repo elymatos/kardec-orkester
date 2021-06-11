@@ -1,9 +1,11 @@
 <?php
+$baseURL = "https://orkester.projetokardec.ufjf.br";
+//$baseURL = "http://localhost:8900";
 ?>
-<script src="/js/timeline/datatables.min.js"></script>
-<script src="/js/timeline/timeline.js"></script>
-<link href="/js/timeline/style.css" rel="stylesheet">
-<link href="/js/timeline/datatables.min.css" rel="stylesheet">
+<script src="{{$baseURL}}/js/timeline/datatables.min.js"></script>
+<script src="{{$baseURL}}/js/timeline/timeline.js"></script>
+<link href="{{$baseURL}}/js/timeline/style.css" rel="stylesheet">
+<link href="{{$baseURL}}/js/timeline/datatables.min.css" rel="stylesheet">
 
 <div id="block-system-main" class="block block-system">
     <div>
