@@ -3,8 +3,9 @@ main { display: block; }
 
 .darwin-timeline-container {
 	margin:0px 100px 0px 100px;
-	padding: 0px 16px 0px 16px;
+	padding: 32px 16px 0px 16px;
 	/*background-color: #C2955F;*/
+
 }
 
 #darwin_timeline_chart_content{
@@ -12,9 +13,13 @@ main { display: block; }
 }
 #block-darwin-letter-timeline-darwin-timeline-chart{
 	padding:0;
-	margin:10px 0 60px 0;
-
+	margin:0px 0 60px 0;
 	min-height: 320px;
+	padding-top:16px;
+
+	border-left: 1px solid #C2955F;
+	border-right: 1px solid #C2955F;
+	border-top: 1px solid #C2955F;
 }
 #block-darwin-letter-timeline-darwin-timeline-letters{
 	padding:0;
@@ -28,6 +33,7 @@ main { display: block; }
 #darwin_timeline_letter_content{
 	position:relative;
 	top:-40px;
+	border: 1px solid #C2955F;
 }
 
 /* tab content for "letter" page table, initially hidden */
@@ -462,7 +468,7 @@ thead{
 /*@CR2017-03-16 - timeline events - within year*/
 .lifeEvent.forYear{
 	position: absolute;
-	background-color: #4b701c;
+	background-color: #5C3900; /*#4b701c;*/
 	cursor: pointer;
 }
 

@@ -36,7 +36,8 @@
             var maxLettersPerYear = 0;
             var screenWidth, yearWidth;
             var currentYear;
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            //var months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
             var daysPerMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
             var letterHeight = 25;
             var nextClick;
@@ -44,15 +45,6 @@
             var letterData;
             var lifeEvents = [];
             var lifeEventDetailShown = false;
-            // var lifeEvents = [
-            //   {year: "1809", title: "Charles Darwin Born"},
-            //   {year: "1825", title: "Went to Edinburgh University"},
-            //   {year: "1827", title: "Admitted to Cambridge University"},
-            //   {year: "1831", title: "Voyage of the Beagle"},
-            //   {year: "1839", title: "Married Emma Wedgwood"},
-            //   {year: "1859", title: "Origin of Species published"},
-            //   {year: "1882", title: "Charles Darwin dies"}
-            // ];
 
             // empty the filter variable, which will now be used by the letters table
             var filter = '';
@@ -447,7 +439,12 @@
                 function loadTable() {
                     $table = timelineContainer.find('#letterTable').DataTable({
                         oLanguage: {
-                            "sSearch": "Filter:"
+                            "sSearch": "Filtro:",
+                            "sInfo": "_START_ até _END_ de _TOTAL_ itens",
+                            "sInfoFiltered": " - filtrados de _MAX_ itens",
+                            "sZeroRecords": "Nenhum item",
+                            "sEmptyTable": "Nenhum item",
+                            "sInfoEmpty": "Nenhum item"
                         },
 
 
@@ -595,9 +592,9 @@
                     var roundedMid = Math.round(Math.floor(maxLettersPerYear / 2) / 10) * 10;
                     // show year-middle if NOT name regs
                     if (!opts.isNameRegs) {
-                        timelineContainer.find("#years-middle").remove();
-                        timelineContainer.find("#bars").prepend("<div id='years-middle' ><span>" + roundedMid + "</span></div>");
-                        timelineContainer.find("#years-middle").css("bottom", ((roundedMid / maxLettersPerYear) * 100) + '%');
+                        //timelineContainer.find("#years-middle").remove();
+                        //timelineContainer.find("#bars").prepend("<div id='years-middle' ><span>" + roundedMid + "</span></div>");
+                        //timelineContainer.find("#years-middle").css("bottom", ((roundedMid / maxLettersPerYear) * 100) + '%');
                     }
                     $("#tooltip").remove();
                     $("body").append("<div id='tooltip' />");
@@ -688,7 +685,7 @@
                                 var yearIndex = Math.floor((end - start) * ((x - offset.left) / (timelineChart.width())));
                                 var yearStat = yearQuantities[yearIndex];
                                 okToShow = yearStat !== undefined;
-                                $("#tooltip").html((1801 + yearIndex) + ":<br />" + yearStat + " letter" + (yearStat == 1 ? '' : 's'));
+                                $("#tooltip").html((1801 + yearIndex) + ":<br />" + yearStat + ' ' + (yearStat == 1 ? 'item' : 'itens'));
                             } else {
                                 // var monthIndex = Math.floor(12 * ((x - offset.left) / (timelineChart.width())));
                                 // var dayIndex = 10;
@@ -702,7 +699,7 @@
                                 var dayStat = dayData[(currentYear - start)][monthIndex][dayIndex];
                                 okToShow = dayStat !== undefined;
 
-                                $("#tooltip").html(((dayIndex + 1) + '/' + months[monthIndex]) + ":<br />" + dayStat + " letter" + (dayStat == 1 ? '' : 's'));
+                                $("#tooltip").html(((dayIndex + 1) + '/' + months[monthIndex]) + ":<br />" + dayStat + " " + (dayStat == 1 ? 'item' : 'itens'));
                             }
 
                             var rectBackBtn = getRectBackBtn();
@@ -940,7 +937,7 @@
                             setTimeout(function () {
                                 plotMonths(openYear, currentYear);
                             }, 1000);
-                            openYear.prepend("<div id='closeYear'>&larr; back</div>");
+                            openYear.prepend("<div id='closeYear'>&larr; Voltar</div>");
                             if (currentYear > start) {
                                 openYear.prepend("<div id='prevYear'>&larr;</div>");
                             }
@@ -1167,7 +1164,7 @@
                 }
 
                 function scrollToDate(day, month, year, letterID) {
-                    console.log('scrollToDate = ' + day + ' ' + month + ' ' + year + ' ' + letterID);
+                    //console.log('scrollToDate = ' + day + ' ' + month + ' ' + year + ' ' + letterID);
                     //@dbgIE11
 //        console.log('start scroll to date');
                     var row = -1;
@@ -1242,7 +1239,7 @@
                         timelineContainer.find("#letterDataTemplate").css("top", 0);
                     }
                     timelineContainer.find("#date-report").remove();
-                    timelineContainer.find("#letterTable_wrapper").prepend("<span id='date-report'>Letters around " + day + "/" + month + "/" + year + "</span>");
+                    timelineContainer.find("#letterTable_wrapper").prepend("<span id='date-report'>Datas próximas a " + day + "/" + month + "/" + year + "</span>");
                 }
 
 
@@ -1254,7 +1251,7 @@
                  * @param letterID
                  */
                 function openLettersWindow(day, month, year, letterID /*, top*/) {
-                    console.log('openLettersWindow = ' + day + ' ' + month + ' ' + year + ' ' + letterID);
+                    //console.log('openLettersWindow = ' + day + ' ' + month + ' ' + year + ' ' + letterID);
                     /*if(top==undefined){
                      top=(target.position().top+target.height())+'px';
                      }
