@@ -59,6 +59,7 @@ thead{
 
 .letterName{
 	font-weight:bold;
+	text-align:left;
 }
 
 
@@ -103,6 +104,17 @@ thead{
 
 #tooltip:after{
 	border-top: 10px solid #000 !important;
+}
+
+#letterTable {
+	font-size: 15px;
+	text-align: left;
+	line-height: 1rem;
+}
+
+.entry table td, .entry table th {
+	text-align: left;
+	border-bottom: 0px solid #f1f1f1;
 }
 
 #letterDataTemplate{
@@ -420,6 +432,7 @@ thead{
 	white-space:nowrap;
 	overflow:hidden;
 	max-width:800px;
+	text-align: left;
 }
 .letterDir{
 	text-align:right;
