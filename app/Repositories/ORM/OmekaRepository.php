@@ -124,8 +124,9 @@ order by 1
         $locale = $this->locale[$data->lang];
         $idItem = '';
         if ($data->idItem != '') {
-            $id = substr($data->idItem, 0, -1);
-            $idItem = " and (it.id = {$id}) ";
+            //$id = substr($data->idItem, 0, -1);
+            //$idItem = " and (it.id = {$id}) ";
+            $idItem = " and (it.id like '{$data->idItem}%') ";
         }
         $idColecao = ($data->idColecao != '') ? " and (it.collection_id = {$data->idColecao}) " : '';
         $ano = ($data->ano != '') ? " and (substr(e2.text,1,4) = '{$data->ano}')" : '';
@@ -145,7 +146,7 @@ JOIN omeka_element_texts e2 on (t.record_id = e2.record_id)
 JOIN omeka_element_texts e3 on (t.record_id = e3.record_id)
 JOIN omeka_items it on (t.record_id = it.id)
 where (t.element_id = 50)
-and (it.item_type_id = 20)
+and (it.item_type_id IN (20, 21))
 and (e2.element_id = 40)
 and (e3.element_id = 43)
 and (t.record_type = 'Item')
