@@ -1,0 +1,48 @@
+== timeline-pt
+<?php
+$lang = 'pt';
+$response = wp_remote_get("https://orkester.projetokardec.ufjf.br/api/Main/Omeka/timeline?__TEMPLATE=content&lang={$lang}");
+echo  $response['body'];
+
+== show-item
+<?php
+$id = isset($_GET['id']) ? $_GET['id'] : '';
+$lang = isset($_GET['lang']) ? $_GET['lang'] : 'pt';
+$response = wp_remote_get("https://orkester.projetokardec.ufjf.br/api/Main/Omeka/showItem?__TEMPLATE=content&id={$id}&lang={$lang}");
+echo  $response['body'];
+
+== browse-images
+<?php
+$q = isset($_GET['q']) ? $_GET['q'] : '';
+$ano = isset($_GET['ano']) ? $_GET['ano'] : '';
+$tag = isset($_GET['tag']) ? $_GET['tag'] : '';
+$idColecao = isset($_GET['idColecao']) ? $_GET['idColecao'] : '';
+$lang = pll_current_language();
+$page = isset($_GET['pg']) ? $_GET['pg'] : '1';
+$response = wp_remote_get("https://orkester.projetokardec.ufjf.br/api/Main/Omeka/browseImages?__TEMPLATE=content&type=20&q={$q}&ano={$ano}&tag={$tag}&idColecao={$idColecao}&page={$page}&lang={$lang}");
+echo  $response['body'];
+
+== browse-items
+<?php
+$q = isset($_GET['q']) ? $_GET['q'] : '';
+$idItem = isset($_GET['idItem']) ? $_GET['idItem'] : '';
+$ano = isset($_GET['ano']) ? $_GET['ano'] : '';
+$tag = isset($_GET['tag']) ? $_GET['tag'] : '';
+$idColecao = isset($_GET['idColecao']) ? $_GET['idColecao'] : '';
+$lang = pll_current_language();
+$page = isset($_GET['pg']) ? $_GET['pg'] : '1';
+$response = wp_remote_get("https://orkester.projetokardec.ufjf.br/api/Main/Omeka/browseItems?__TEMPLATE=content&type=20&q={$q}&idItem={$idItem}&ano={$ano}&tag={$tag}&idColecao={$idColecao}&page={$page}&lang={$lang}");
+echo  $response['body'];
+
+== form-search
+<?php
+$q = isset($_GET['q']) ? $_GET['q'] : '';
+$idItem = isset($_GET['idItem']) ? $_GET['idItem'] : '';
+$ano = isset($_GET['ano']) ? $_GET['ano'] : '';
+$tag = isset($_GET['tag']) ? $_GET['tag'] : '';
+$idColecao = isset($_GET['idColecao']) ? $_GET['idColecao'] : '';
+$lang = $lang = pll_current_language();
+$page = isset($_GET['pg']) ? $_GET['pg'] : '1';
+$response = wp_remote_get("https://orkester.projetokardec.ufjf.br/api/Main/Omeka/formSearch?__TEMPLATE=content&type=20&q={$q}&idItem={$idItem}&ano={$ano}&tag={$tag}&idColecao={$idColecao}&page={$page}&lang={$lang}");
+echo  $response['body'];
+

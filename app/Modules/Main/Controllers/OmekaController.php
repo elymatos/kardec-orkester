@@ -81,5 +81,12 @@ class OmekaController extends MController
         return $this->render();
     }
 
+    public function listItemsByPublication()
+    {
+        $omekaService = Manager::getContainer()->get(OmekaService::class);
+        $this->data->items = $omekaService->listItemsByPublication();
+        return $this->render();
+    }
+
 }
 

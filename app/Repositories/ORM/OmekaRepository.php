@@ -162,6 +162,41 @@ order by 3
         return $this->executeQuery($command);
     }
 
+    public function listItemsByFilter(object $data)
+    {
+        $locale = $this->locale[$data->lang];
+        $idItem = '';
+        if ($data->idItem != '') {
+            $id = substr($data->idItem, 0, -1);
+            $idItem = " and (it.id = {$id}) ";
+        }
+        $idColecao = ($data->idColecao != '') ? " and (it.collection_id = {$data->idColecao}) " : '';
+        $ano = ($data->ano != '') ? " and (substr(e2.text,1,4) = '{$data->ano}')" : '';
+        $tag = ($data->tag != '') ? " and (it.id in (select record_id from omeka_records_tags where (record_type = 'Item') and (tag_id = {$data->tag}) ))" : '';
+        $command = "
+select * from (
+SELECT it.id, t.translation title, e2.text date, e3.text identifier,it.collection_id idCollection
+FROM omeka_multilanguage_translations t
+JOIN omeka_element_texts e2 on (t.record_id = e2.record_id)
+JOIN omeka_element_texts e3 on (t.record_id = e3.record_id)
+JOIN omeka_items it on (t.record_id = it.id)
+where (t.element_id = 50)
+and (it.item_type_id = 20)
+and (e2.element_id = 40)
+and (e3.element_id = 43)
+and (t.record_type = 'Item')
+and (t.locale_code = '{$locale}')
+{$idItem}
+{$idColecao}
+{$ano}
+{$tag}
+order by 3
+) page
+";
+        mdump($command);
+        return $this->executeQuery($command);
+    }
+
     public function listImages(object $data)
     {
         $locale = $this->locale[$data->lang];
