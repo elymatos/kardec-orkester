@@ -168,7 +168,7 @@ class OmekaService extends MService
     public function listItemsByPublication()
     {
         mdump($this->data);
-        $items = $this->repository->listItemsByFilter($this->data);
+        $items = $this->repository->listItemsByPublication($this->data);
         $list = [];
         foreach ($items as $item) {
             if ($this->data->q == '') {
@@ -176,6 +176,7 @@ class OmekaService extends MService
                     'id' => $item['id'],
                     'title' => $item['title'],
                     'date' => $item['date'],
+                    'pubDate' => $item['pubDate'],
                     'idCollection' => $item['idCollection'],
                 ];
             }
