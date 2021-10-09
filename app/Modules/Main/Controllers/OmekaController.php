@@ -47,6 +47,12 @@ class OmekaController extends MController
         return $this->render();
     }
 
+    public function formListBy()
+    {
+        mdump($this->data);
+        return $this->render();
+    }
+
     public function browseItems()
     {
         $omekaService = Manager::getContainer()->get(OmekaService::class);
