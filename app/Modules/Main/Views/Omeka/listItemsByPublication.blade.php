@@ -16,6 +16,8 @@ $query = [
 ];
 $href .= http_build_query($query);
 
+$pubDate = '';
+
 $count = count($data->items);
 if ($count > 0) {
 ?>
@@ -27,6 +29,11 @@ if ($count > 0) {
         $date = "{$d}/{$m}/{$y}";
         $itemCode = $item->id . $code[$item->idCollection];
         @endphp
+        @if($pubDate != $item->pubDate)
+        <h3>{{$item->pubDate}} </h3>
+            @php($pubDate = $item->pubDate)
+        @endif
+
     <div class="item">
         <i class="map marker icon"></i>
         <div class="content">
