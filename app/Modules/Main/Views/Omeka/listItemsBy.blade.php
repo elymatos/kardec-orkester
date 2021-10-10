@@ -45,36 +45,3 @@ if ($count > 0) {
 }
 ?>
 
-<style>
-    .ui.card > .content > .header:not(.ui), .ui.cards > .card > .content > .header:not(.ui) {
-        font-weight: 700;
-        font-size: 1.05em;
-        margin-top: -.21425em;
-        line-height: 1.05em;
-    }
-
-    .ui.card > .content > .header:not(.ui), .ui.cards > .card > .content > .description {
-        font-weight: 700;
-        font-size: 1.05em;
-        line-height: 1.05em;
-    }
-
-    .ui.card, .ui.cards > .card {
-        width: 310px;
-    }
-
-    .paginationContainer {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1.5em;
-        height: 40px;
-    }
-
-    .navButton {
-        background-color: #c2955f;
-    }
-
-    .labelPagina {
-        width: 5em;
-    }
-</style>

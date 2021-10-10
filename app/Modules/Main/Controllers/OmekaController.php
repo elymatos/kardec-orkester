@@ -47,12 +47,6 @@ class OmekaController extends MController
         return $this->render();
     }
 
-    public function formListBy()
-    {
-        mdump($this->data);
-        return $this->render();
-    }
-
     public function browseItems()
     {
         $omekaService = Manager::getContainer()->get(OmekaService::class);
@@ -84,6 +78,18 @@ class OmekaController extends MController
     }
 
     public function timeline() {
+        return $this->render();
+    }
+
+    public function formListBy()
+    {
+        mdump($this->data);
+        $omekaService = Manager::getContainer()->get(OmekaService::class);
+        $lists = $omekaService->listItemsBy();
+        $this->data->items = $lists[0];
+        $this->data->detail = $lists[1];
+        mdump($this->data->items);
+        mdump($this->data->detail);
         return $this->render();
     }
 

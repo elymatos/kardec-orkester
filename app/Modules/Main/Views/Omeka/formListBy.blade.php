@@ -9,40 +9,54 @@ if ($lang == 'pt') {
     $action = "https://projetokardec.ufjf.br/fr/manuscritos";
 }
 
-$s = [
-    'todas' => ['pt' => 'Todas', 'fr' => 'Tout'],
-    'todos' => ['pt' => 'Todos', 'fr' => 'Tout'],
-    'pesquisar' => ['pt' => 'Pesquisar', 'fr' => 'Rechercher'],
-    'pesquisar_por' => ['pt' => 'Pesquisar por', 'fr' => 'Rechercher par'],
-    'identificador' => ['pt' => 'Identificador (ex. 180A)', 'fr' => 'identifiant (ex. 180A)'],
-    'colecao' => ['pt' => 'Coleção', 'fr' => 'Collection'],
-    'ano' => ['pt' => 'Ano', 'fr' => 'An'],
-    'categoria' => ['pt' => 'Categoria', 'fr' => 'Catégorie'],
-];
-
-
 ?>
 
-<div class="ui pointing menu">
-    <a class="item  {{($data->q == 'datePub') ? 'active' : '' }}" href="https://projetokardec.ufjf.br/listar-por?q=datePub&lang={{$lang}}">
-        Data de Publicação
-    </a>
-    <a class="item">
-        Messages
-    </a>
-    <a class="item">
-        Friends
-    </a>
-    <a class="item">
-        Messages
-    </a>
-    <a class="item">
-        Friends
-    </a>
-    <a class="item">
-        Messages
-    </a>
-    <a class="item">
-        Friends
-    </a>
+
+<div class="ui list">
+    <h3 style="margin-top:8px">Data de publicação</h3>
+    @foreach($data->items['pubDateInv'] as $i => $value)
+        @php
+            list($y, $m, $d) = explode('/', $i);
+            $date = "{$d}/{$m}/{$y}";
+        @endphp
+        <div class="item">
+            <i class="file alternate outline icon"></i>
+            <div class="content">
+                <a class="header" href="https://projetokardec.ufjf.br/listar-por?q=pubDate&value={{$i}}">{{$date}} ({{$value}})</a>
+            </div>
+        </div>
+    @endforeach
+</div>
+<div class="ui list">
+    <h3 style="margin-top:8px">Ano</h3>
+    @foreach($data->items['year'] as $i => $value)
+        <div class="item">
+            <i class="file alternate outline icon"></i>
+            <div class="content">
+                <a class="header" href="https://projetokardec.ufjf.br/listar-por?q=year&value={{$i}}">{{$i}} ({{$value}})</a>
+            </div>
+        </div>
+    @endforeach
+</div>
+<div class="ui list">
+    <h3 style="margin-top:8px">Categoria</h3>
+    @foreach($data->items['tag'] as $i => $value)
+        <div class="item">
+            <i class="file alternate outline icon"></i>
+            <div class="content">
+                <a class="header" href="https://projetokardec.ufjf.br/listar-por?q=year&value={{$i}}">{{$i}} ({{$value}})</a>
+            </div>
+        </div>
+    @endforeach
+</div>
+<div class="ui list">
+    <h3 style="margin-top:8px">Coleção</h3>
+    @foreach($data->items['collection'] as $i => $value)
+        <div class="item">
+            <i class="file alternate outline icon"></i>
+            <div class="content">
+                <a class="header" href="https://projetokardec.ufjf.br/listar-por?q=year&value={{$i}}">{{$i}} ({{$value}})</a>
+            </div>
+        </div>
+    @endforeach
 </div>
