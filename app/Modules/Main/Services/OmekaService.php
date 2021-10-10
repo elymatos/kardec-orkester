@@ -165,6 +165,43 @@ class OmekaService extends MService
         return $item;
     }
 
+    public function listItemsBy()
+    {
+        mdump($this->data);
+        $items = $this->repository->listItemsBy($this->data);
+        $list = [
+            'pubDateInv' => [],
+            'collection' => [],
+            'year' => [],
+            'tag' => []
+        ];
+        $listDetail = [];
+        foreach ($items as $item) {
+            $isDetail = (($this->data->q == 'pubDateInv') && ($this->data->value == $item['pubDateInv']))
+                || (($this->data->q == 'collection') && ($this->data->value == $item['collection']))
+                || (($this->data->q == 'tag') && ($this->data->value == $item['tag']))
+                || (($this->data->q == 'year') && ($this->data->value == $item['year']));
+            if ($isDetail) {
+                $listDetail[] = [
+                    $item['id'],
+                    $item['title'],
+                    $item['date'],
+                ];
+            }
+            $list['pubDateInv'][$item['pubDateInv']] = ($list['pubDateInv'][$item['pubDateInv']] ?? 0) + 1;
+            $list['collection'][$item['collection']] = ($list['collection'][$item['collection']] ?? 0) + 1;
+            if ($item['tag'] != '') {
+                $list['tag'][$item['tag']] = ($list['tag'][$item['tag']] ?? 0) + 1;
+            }
+            $list['year'][$item['year']] = ($list['year'][$item['year']] ?? 0) + 1;
+        }
+        krsort($list['pubDateInv']);
+        ksort($list['collection']);
+        ksort($list['tag']);
+        krsort($list['year']);
+        return [$list, $listDetail];
+    }
+
     public function listItemsByPublication()
     {
         mdump($this->data);

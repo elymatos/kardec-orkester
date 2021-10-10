@@ -163,24 +163,36 @@ order by 3
         return $this->executeQuery($command);
     }
 
-    public function listItemsByPublication(object $data)
+    public function listItemsBy(object $data)
     {
         $locale = $this->locale[$data->lang];
+        $fieldTag = 't.name';
+        if ($locale == 'fr') {
+            $fieldTag = 't.name_fr';
+        }
         $command = "
-SELECT it.id, t.translation title, e2.text date, e3.text identifier,it.collection_id idCollection, e4.text pubDate, concat(substr(e4.text,7,4),'/',substr(e4.text,4,2),'/',substr(e4.text,1,2)) datapubinv
+SELECT it.id, t.translation title, e2.text date, substr(e2.text,1,4) year, e3.text identifier,it.collection_id idCollection, e4.text pubDate, concat(substr(e4.text,7,4),'/',substr(e4.text,4,2),'/',substr(e4.text,1,2)) pubDateInv, tags.name tag, e5.text collection
 FROM omeka_multilanguage_translations t
 JOIN omeka_element_texts e2 on (t.record_id = e2.record_id)
 JOIN omeka_element_texts e3 on (t.record_id = e3.record_id)
 JOIN omeka_element_texts e4 on (t.record_id = e4.record_id)
 JOIN omeka_items it on (t.record_id = it.id)
+join omeka_collections c on (it.collection_id = c.id)
+join omeka_element_texts e5 on (e5.record_id = c.id)
+left join (
+select t.id, {$fieldTag} name, r.record_id
+from omeka_tags t join omeka_records_tags r on (r.tag_id = t.id)
+) tags on (tags.record_id = t.record_id)
 where (t.element_id = 50)
 and (it.item_type_id IN (20, 21))
 and (e2.element_id = 40)
 and (e3.element_id = 43)
 and (e4.element_id = 74)
+and (e5.element_id = 50)
+and (e5.record_type='Collection')
 and (t.record_type = 'Item')
 and (t.locale_code = '{$locale}')
-order by 7 desc,3 desc,2
+
 ";
         mdump($command);
         return $this->executeQuery($command);
