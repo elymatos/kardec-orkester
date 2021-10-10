@@ -1,5 +1,6 @@
 <?php
 $lang = $data->lang;
+$q = $data->q;
 
 if ($lang == 'fr') {
     $action = "https://projetokardec.ufjf.br/fr/manuscrits";
@@ -23,13 +24,25 @@ $s = [
 ?>
 
 <div class="ui pointing menu">
-    <a class="item" href="https://projetokardec.ufjf.br/listar-por?q=datePub&lang={{$lang}}">
+    <a class="item  {{($data->q == 'datePub') ? 'active' : '' }}" href="https://projetokardec.ufjf.br/listar-por?q=datePub&lang={{$lang}}">
         Data de Publicação
     </a>
     <a class="item">
         Messages
     </a>
-    <a class="item active">
+    <a class="item">
+        Friends
+    </a>
+    <a class="item">
+        Messages
+    </a>
+    <a class="item">
+        Friends
+    </a>
+    <a class="item">
+        Messages
+    </a>
+    <a class="item">
         Friends
     </a>
 </div>

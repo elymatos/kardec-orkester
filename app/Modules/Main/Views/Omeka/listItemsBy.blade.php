@@ -9,14 +9,9 @@ if ($data->lang == 'fr') {
 }
 $code = [1 => 'C', 2 => 'K', 3 => 'F'];
 
-$query = [
-    'idColecao' => $data->idColecao,
-    'tag' => $data->tag,
-    'ano' => $data->ano
-];
-$href .= http_build_query($query);
+mdump($data->items);
 
-$pubDate = '';
+$header = '';
 
 $count = count($data->items);
 if ($count > 0) {
@@ -29,15 +24,15 @@ if ($count > 0) {
         $date = "{$d}/{$m}/{$y}";
         $itemCode = $item->id . $code[$item->idCollection];
         @endphp
-        @if($pubDate != $item->pubDate)
-        <h3>{{$item->pubDate}} </h3>
-            @php($pubDate = $item->pubDate)
+        @if($header != $item->header)
+        <h3 style="margin-top:8px">{{$item->header}} </h3>
+            @php($header = $item->header)
         @endif
 
     <div class="item">
-        <i class="map marker icon"></i>
+        <i class="file alternate outline icon"></i>
         <div class="content">
-            <a class="header">{{$date}} - {{$item->title}} [{{$itemCode}}]</a>
+            <a class="header" href="https://projetokardec.ufjf.br/item-{{$lang}}?id={{$item->id}}">{{$date}} - {{$item->title}} [{{$itemCode}}]</a>
             <!--
             <div class="description"></div>
             -->
