@@ -171,15 +171,13 @@ class OmekaService extends MService
         $items = $this->repository->listItemsByPublication($this->data);
         $list = [];
         foreach ($items as $item) {
-            if ($this->data->q == '') {
-                $list[] = (object)[
-                    'id' => $item['id'],
-                    'title' => $item['title'],
-                    'date' => $item['date'],
-                    'pubDate' => $item['pubDate'],
-                    'idCollection' => $item['idCollection'],
-                ];
-            }
+            $list[] = (object)[
+                'id' => $item['id'],
+                'title' => $item['title'],
+                'date' => $item['date'],
+                'header' => $item['pubDate'],
+                'idCollection' => $item['idCollection'],
+            ];
         }
         return $list;
     }
