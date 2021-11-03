@@ -12,10 +12,13 @@ class AttributeMap
     private $name;
     private $columnName;
     private $alias;
-    private $reference;
+    private mixed $default;
+    private bool $nullable = false;
+    private $reference = '';
     private $index = NULL;
     private $type = NULL;
     private $converter = NULL;
+    private $handler = NULL;
     private $handled = false;
     private $keyType;
     private $idGenerator;
@@ -44,14 +47,19 @@ class AttributeMap
         }
     }
 
+    public function getRowName(): string
+    {
+        return $this->name;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
     }
 
-    public function getType()
+    public function getType(): string
     {
-        return $this->type;
+        return $this->type ?? 'string';
     }
 
     public function setAlias($alias)
@@ -79,6 +87,16 @@ class AttributeMap
         $this->handled = $handled;
     }
 
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    public function setHandler(?string $handler = null)
+    {
+        $this->handler = $handler;
+    }
+
     public function setColumnName($name)
     {
         $this->columnName = $name;
@@ -97,6 +115,11 @@ class AttributeMap
     public function getConverter()
     {
         return $this->converter;
+    }
+
+    public function setDefault(mixed $default)
+    {
+        $this->default = $default;
     }
 
     public function setValue($object, $value)
@@ -119,17 +142,21 @@ class AttributeMap
         }
     }
 
-    public function getValue($object)
+    public function getValue(object $object): mixed
     {
-        return $object->get($this->index ? $this->name . $this->index : $this->name);
+        $field = $this->index ? $this->name . $this->index : $this->name;
+        if (!isset($object->$field)) {
+            $object->$field = null;
+        }
+        return $object->$field;
     }
 
-    public function setReference($attributeMap)
+    public function setReference(string $reference)
     {
-        $this->reference = $attributeMap;
+        $this->reference = $reference;
     }
 
-    public function getReference()
+    public function getReference(): string
     {
         return $this->reference;
     }
@@ -213,21 +240,21 @@ class AttributeMap
     public function getValueToDb($object)
     {
         $value = $this->convertValue($this->getValue($object));
-        if (is_string($value)) {
-            $value = $object->sanitize($this->name, $value);
-        }
+//        if (is_string($value)) {
+//            $value = strip_tags($value);
+//        }
         return $value;
     }
 
     public function getValueFromDb($value)
     {
-        return $this->classMap->getPlatform()->convertToPHPValue($value, $this->type);
+        return Manager::getPersistentManager()->getPersistence()->convertToPHPValue($value, $this->type);
     }
 
     public function getColumnNameToDb($criteriaAlias = '', $as = TRUE)
     {
         $fullyName = $this->getFullyQualifiedName($criteriaAlias);
-        $name = $this->classMap->getPlatform()->convertColumn($fullyName, $this->type);
+        $name = Manager::getPersistentManager()->getPersistence()->convertColumn($fullyName, $this->type);
         if ($as && ($name != $fullyName)) { // need a "as" clause
             $name .= ' AS ' . $this->name;
         }
@@ -237,7 +264,17 @@ class AttributeMap
     public function getColumnWhereName($criteriaAlias = '')
     {
         $fullyName = $this->getFullyQualifiedName($criteriaAlias);
-        $name = $this->classMap->getPlatform()->convertWhere($fullyName, $this->type);
+        $name = Manager::getPersistentManager()->getPersistence()->convertWhere($fullyName, $this->type);
         return $name;
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->nullable;
+    }
+
+    public function setNullable(bool $nullable): void
+    {
+        $this->nullable = $nullable;
     }
 }

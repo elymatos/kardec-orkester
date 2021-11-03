@@ -6,7 +6,7 @@ use Orkester\Manager;
 
 $baseDir = realpath(dirname(dirname(dirname(__FILE__))));
 
-//ini_set("error_reporting", "E_ALL & ~E_NOTICE & ~E_STRICT");
+ini_set("error_reporting", "E_ALL & ~E_NOTICE & ~E_STRICT");
 ini_set("display_errors", "1");
 ini_set("log_errors", "1");
 ini_set("error_log", "php_error.log");
@@ -97,7 +97,8 @@ try {
         $dataTimeline['letters'][] = $letter;
     }
     $json = json_encode($dataTimeline);
-    file_put_contents('../../public/js/timeline/letters-timeline-json-pt.json', $json);
+//    file_put_contents('../../public/js/timeline/letters-timeline-json-pt.json', $json);
+    file_put_contents('letters-timeline-json-pt.json', $json);
 } catch (Exception $e) {
     print_r($e);
     print_r($e->getMessage());

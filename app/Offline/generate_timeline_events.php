@@ -35,6 +35,7 @@ try {
       "image": "https:\/\/www.darwinproject.ac.uk\/sites\/default\/files\/MS-DAR-00225-000-00137-00001.jpg"
      */
     $items = [
+        /*
         1 => [
             "title" => "Nasce  Hippolyte Leon Denizard Rivail",
             "body" => "Hippolyte Leon Denizard Rivail, filho de ---  e -- ....",
@@ -50,6 +51,7 @@ try {
             "body" => "....",
             "date" => "1857/04/18",
         ],
+        */
     ];
     foreach ($items as $id => $item) {
         $dt = Carbon::createFromFormat('Y/m/d', $item['date']);

@@ -30,7 +30,7 @@ class MDatabase
 
     private $config;       // identifies db configuration in conf.php
     private $params;
-    private $connection;   // Doctrine\DBAL\Connection object
+    private DBAL\Driver\Connection $connection;   // Doctrine\DBAL\Connection object
     private $status;       // 'open' or 'close'
     /** @var DBAL\Platforms\AbstractPlatform */
     private $platform;     // platform of current driver
@@ -189,7 +189,6 @@ class MDatabase
             try {
                 $sql->setParameters($parameters);
                 $this->affectedRows = $sql->execute();
-                $this->lastInsertId = $this->connection->lastInsertId();
             } catch (Exception $e) {
                 $code = $sql->stmt->errorCode();
                 $info = $sql->stmt->errorInfo();

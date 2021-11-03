@@ -2,6 +2,10 @@
 
 namespace Orkester\Database\Platforms\PDOMySql;
 
+use Carbon\Carbon;
+use Orkester\Manager;
+use Orkester\Types\MRange;
+
 class Platform extends \Doctrine\DBAL\Platforms\MySqlPlatform {
 
     public $db;
@@ -86,7 +90,7 @@ class Platform extends \Doctrine\DBAL\Platforms\MySqlPlatform {
         return $type;
     }
 
-    public function getSQLRange(\MRange $range) {
+    public function getSQLRange(MRange $range) {
         return "LIMIT " . $range->offset . "," . $range->rows;
     }
 
@@ -106,17 +110,15 @@ class Platform extends \Doctrine\DBAL\Platforms\MySqlPlatform {
             }
         }
         if ($type == 'date') {
-            return $value->format('Y-m-d');
-        } elseif ($type == 'timestamp') {
-            return $value->format('Y-m-d H:i:s');
+            return is_object($value) ? $value->format('Y/m/d') : $value;
+        } elseif ($type == 'time') {
+            return is_object($value) ? $value->format('H:i:s') : $value;
+        } elseif ($type == 'timestamp' || $type == 'datetime') {
+            return is_object($value) ? $value->format('Y/m/d H:i:s') : $value;
         } elseif (($type == 'decimal') || ($type == 'float')) {
             return str_replace(',', '.', $value);
-        } elseif ($type == 'currency') {
-            return str_replace(',', '.', $value->getValue());
-        } elseif ($type == 'cpf') {
-            return $value->getPlainValue();
-        } elseif ($type == 'cnpj') {
-            return $value->getPlainValue();
+        } elseif ($type == 'json') {
+            return json_encode($value);
         } elseif ($type == 'blob') {
             $value = base64_encode($value->getValue());
             $bindingType = 3; //PDO::PARAM_LOB
@@ -127,16 +129,17 @@ class Platform extends \Doctrine\DBAL\Platforms\MySqlPlatform {
     }
 
     public function convertToPHPValue($value, $type) {
+        if (empty($value) && $value != '0') {
+            return null;
+        }
         if ($type == 'date') {
-            return \Manager::Date($value);
-        } elseif ($type == 'timestamp') {
-            return \Manager::Timestamp($value);
-        } elseif ($type == 'currency') {
-            return \Manager::currency($value);
-        } elseif ($type == 'cnpj') {
-            return \MCNPJ::create($value);
-        } elseif ($type == 'cpf') {
-            return \MCPF::create($value);
+            return Carbon::createFromFormat('Y-m-d', $value);
+        } elseif ($type == 'timestamp' || $type == 'datetime') {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $value);
+        } elseif ($type == 'time') {
+            return Carbon::createFromFormat('H:i:s', $value);
+        } elseif ($type == 'json') {
+            return json_decode($value);
         } elseif ($type == 'blob') {
             if ($value) {
                 $value = base64_decode($value);
@@ -149,32 +152,38 @@ class Platform extends \Doctrine\DBAL\Platforms\MySqlPlatform {
     }
 
     public function convertColumn($value, $type) {
-        if ($type == 'date') {
-            return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDate') . "') ";
-        } elseif ($type == 'timestamp') {
-            return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDate') . '' . $this->db->getConfig('formatTime') . "') ";
-        } else {
-            return $value;
-        }
+//        if ($type == 'date') {
+//            return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDate') . "') ";
+//        } elseif ($type == 'datetime' || $type == 'timestamp') {
+//            return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDate') . ' ' . $this->db->getConfig('formatTime') . "') ";
+//        } elseif ($type == 'time') {
+//            return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatTime') . "') ";
+//        } else {
+//            return $value;
+//        }
+        return $value;
     }
 
     public function convertWhere($value, ?string $dbalType = '') {
         if ($dbalType == 'date') {
             return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDateWhere') . "') ";
         } elseif ($dbalType == 'datetime') {
-            return " DATE_FORMAT(" . $value . "," . $this->db->getConfig('formatDateWhere') . '' . $this->db->getConfig('formatTime') . "') ";
-        } else {
+            return " DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDateWhere') . ' ' . $this->db->getConfig('formatTimeWhere') . "') ";
+        } elseif ($dbalType == 'timestamp') {
+            return " DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatDateWhere') . ' ' . $this->db->getConfig('formatTimeWhere') . "') ";
+        } elseif ($dbalType == 'time') {
+            return "DATE_FORMAT(" . $value . ",'" . $this->db->getConfig('formatTimeWhere') . "') ";
+        } else
             return $value;
         }
-    }
 
     public function handleTypedAttribute($attributeMap, $operation) {
         $method = 'handle' . $attributeMap->getType();
         $this->$method($operation);
     }
-    
+
     public function setUserInformation($userId, $userIP = null, $module = null, $action = null) {
-        
+
     }
 
     private function handleLOB($operation) {

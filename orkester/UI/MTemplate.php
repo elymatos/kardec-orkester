@@ -4,21 +4,24 @@ namespace Orkester\UI;
 
 use Orkester\Manager;
 use Jenssegers\Blade\Blade;
+use Orkester\MVC\MView;
 
 class MTemplate
 {
 
     private Blade $engine;
     private array $context;
-    private string $path;
+    private array|string $paths;
     private string $template;
 
-    public function __construct($path = '')
+    public function __construct(array|string $paths)
     {
-        $this->path = $path;
-        mdump('=='.$path);
+        $paths = (is_array($paths) ? $paths : (array)$paths);
+        $this->paths = array_merge($paths, Manager::getOptions('templatePath'));
         $cachePath = Manager::getOptions('tmpPath') . '/templates';
-        $this->engine = new Blade($this->path, $cachePath);
+        $this->engine = new Blade($this->paths, $cachePath);
+        $this->engine->addExtension('xml','blade');
+        $this->engine->addExtension('js','blade');
         $this->engine->addExtension('vue','blade');
         if (function_exists('mb_internal_charset')) {
             mb_internal_charset('UTF-8');
@@ -52,8 +55,8 @@ class MTemplate
     public function render(array $args = []): string
     {
         $params = array_merge($this->context, $args);
-        mdump($this->path);
-        mdump($this->template);
+        //mdump($this->path);
+        //mdump($this->template);
         return $this->engine->render($this->template, $params);
     }
 
@@ -66,6 +69,10 @@ class MTemplate
     {
         //mdump('=========fetch==='. $fileName);
         //$this->load($fileName);
+        $args['manager'] = Manager::getInstance();
+        $args['data'] = Manager::getData();
+        $args['page'] = Manager::getObject(MPage::class);
+        $args['view'] = $this->context['view'] ?? new MView();
         $this->template = $templateName;
         return $this->render($args);
     }

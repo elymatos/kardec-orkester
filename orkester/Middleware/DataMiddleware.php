@@ -27,6 +27,25 @@ class DataMiddleware implements Middleware
         return $response;
     }
 
+    public function setPrimeVueFilters($data, $filters): bool
+    {
+        $data->filter = [];
+        foreach ($filters as $field => $condition) {
+            ['value' => $value, 'matchMode' => $matchMode] = $condition;
+            if (empty($value)) continue;
+            array_push($data->filter,
+                match ($matchMode) {
+                    'startsWith' => [$field, 'LIKE', "$value%"],
+                    'contains' => [$field, 'LIKE', "%$value%"],
+                    'endsWith' => [$field, 'LIKE', "%$value"],
+                    'notContains' => [$field, 'NOT LIKE', "%$value%"],
+                    'notEquals' => [$field, '<>', $value],
+                    default => [$field, '=', $value]
+                });
+        }
+        return true;
+    }
+
     private function setData($values)
     {
         $data = new \stdClass;;
@@ -41,11 +60,12 @@ class DataMiddleware implements Middleware
                         '_page' => $data->pagination->page = $value,
                         '_limit' => $data->pagination->rows = $value,
                         '_sort' => $data->pagination->sort = $value,
-                        '_order' => $data->pagination->order = $value,
+                        '_order' => $data->pagination->order = $value == -1 ? 'desc' : 'asc',
                         '_start' => $data->pagination->start = $value,
                         '_end' => $data->pagination->end = $value,
                         '_embed' => $data->relationship->embed = $value,
                         '_expand' => $data->relationship->expand = $value,
+                        '_filter' => $this->setPrimeVueFilters($data, $value), // primevue
                         default => '',
                     };
                 } else {
@@ -60,12 +80,6 @@ class DataMiddleware implements Middleware
                             $data->{$obj} = (object)[];
                         }
                         $data->{$obj}->{$name} = $value;
-                    //} elseif (str_contains($name, '_')) {
-                    //    list($obj, $name) = explode('_', $name);
-                    //    if (!isset($data->{$obj})) {
-                    //        $data->{$obj} = (object)[];
-                    //    }
-                    //    $data->{$obj}->{$name} = $value;
                     } else {
                         $data->{$name} = $value;
                     }

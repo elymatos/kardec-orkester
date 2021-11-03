@@ -13,7 +13,7 @@ $baseURL = "https://orkester.projetokardec.ufjf.br";
 <link href="{{$baseURL}}/js/timeline/datatables.min.css" rel="stylesheet">
 
 <div>
-    <p>Clique em uma das barras correspondentes a cada ano ou sobre o circulo correspondente a um evento. Percorra a
+    <p>Clique em uma das barras correspondentes a cada ano; percorra a
         lista de itens ou use o campo 'Filtro' para pesquisar nos títulos e descrições.</p>
 </div>
 
