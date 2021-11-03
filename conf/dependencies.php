@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use DI\Factory\RequestedEntry;
 use Orkester\Persistence\PersistentManager;
+use Orkester\Persistence\PersistenceSQL;
 use function DI\create;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
@@ -49,6 +50,12 @@ return function (ContainerBuilder $containerBuilder) {
         MContext::class => DI\autowire(),
         MDatabase::class => create(),
         MPage::class => create(),
+        'PersistenceBackend' => function() {
+            return new PersistenceSQL();
+        },
+        'PersistentConfigLoader' => function() {
+            return new \Orkester\Persistence\PHPConfigLoader();
+        },
         'PersistentManager' => function() {
             return PersistentManager::getInstance();
         },
@@ -63,7 +70,6 @@ return function (ContainerBuilder $containerBuilder) {
             return new $class(...$constructor);
         },
         'App\\*Service' => function (ContainerInterface $c, RequestedEntry $entry) {
-            $class = $entry->getName();
             $reflection = new ReflectionClass($class);
             $params = $reflection->getConstructor()->getParameters();
             $constructor = array();

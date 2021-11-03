@@ -19,7 +19,13 @@ return [
         'defaultPassword' => 'default',
         'pageTitle' => 'FNBr CARMA [github]',
         'mainTitle' => 'FrameNet Brasil CARMA 2.0 [github]',
-        'idLanguage' => 2
+        'idLanguage' => 2,
+        'templatePath' => [
+            '/var/www/html/app/UI/Templates/Page',
+            '/var/www/html/app/UI/Templates/Controls',
+            '/var/www/html/app/UI/Components',
+        ],
+        'db' => 'kardec',
     ],
     'login' => [
         'handler' => 'login',
@@ -54,10 +60,10 @@ return [
         'path' => __DIR__ . '/../var/log',
         'level' => 1,
         'handler' => "socket",
-        //'peer' => '200.131.19.163',//isset($_SERVER['REMOTE_ADDR']) ? 'host.docker.internal' : 'localhost',
-        'peer' => 'host.docker.internal',
-        //'strict' => '127.0.0.1',
-        'port' => 9999,
+        'peer' => '200.131.19.163',//isset($_SERVER['REMOTE_ADDR']) ? 'host.docker.internal' : 'localhost',
+        //'peer' => 'host.docker.internal',
+        //'strict' => '200.131.19.163',
+        'port' => 0,
         'console' => 1,
         'errorCodes' => [
             E_ERROR,

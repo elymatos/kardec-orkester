@@ -13,6 +13,26 @@ function mdump($var, $tag = null)
     MTrace::traceDump($var, false, 0, $tag);
 }
 
+function mfatal($var)
+{
+    MTrace::traceDebug("FATAL", $var);
+}
+
+function merror($var)
+{
+    MTrace::traceDebug("ERROR", $var);
+}
+
+function mwarn($var)
+{
+    MTrace::traceDebug("WARN", $var);
+}
+
+function minfo($var)
+{
+    MTrace::traceDebug("INFO", $var);
+}
+
 function mtrace($var)
 {
     MTrace::trace(print_r($var, true));
@@ -23,7 +43,7 @@ function mconsole($var)
     MTrace::console(print_r($var, true));
 }
 
-function mtracestack(): string
+function mtracestack()
 {
     return MTrace::tracestack();
 }
@@ -129,7 +149,9 @@ function errorHandler($errno, $errstr, $errfile, $errline)
         return;
     }
     if (in_array($errno, $codes)) {
-        Manager::logMessage("[ERROR] [Code] $errno [Error] $errstr [File] $errfile [Line] $errline");
+        if (Manager::getLog()) {
+            Manager::logMessage("[ERROR] [Code] $errno [Error] $errstr [File] $errfile [Line] $errline");
+        }
     }
 }
 

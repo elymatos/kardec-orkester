@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Orkester\Middleware\CorsMiddleware;
 use Orkester\Middleware\LoginMiddleware;
 use Orkester\Middleware\SessionMiddleware;
 use Orkester\Middleware\DataMiddleware;
@@ -10,4 +11,5 @@ return function (App $app) {
     $app->add(DataMiddleware::class);
     $app->add(LoginMiddleware::class);
     $app->add(SessionMiddleware::class);
+    $app->add(CorsMiddleware::class);
 };

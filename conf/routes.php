@@ -20,4 +20,11 @@ return function (App $app) {
 
     $app->get('/api/{module}/{controller}/{action}[/{id}]',MActionController::class);
     $app->post('/api/{module}/{controller}/{action}[/{id}]',MActionController::class);
+
+    // Cors
+    $app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function($req, $res, $args) {
+        $handler = $this->notFoundHandler; // handle using the default Slim page not found handler
+        return $handler($req, $res, $args);
+    });
+
 };

@@ -12,11 +12,13 @@ abstract class MResult
 
     protected $ajax;
     protected $content;
+    protected $code;
 
-    public function __construct()
+    public function __construct(int $code = 200)
     {
-        $this->ajax = Manager::getAjax();
+        //$this->ajax = Manager::getAjax();
         $this->content = null;
+        $this->code = $code;
     }
 
     public abstract function apply(Request $request, Response $response): Response;
@@ -27,11 +29,8 @@ abstract class MResult
     }
 
     protected function getTemplate($templateName) {
-        //$templateName .= '.blade.php';
-        $path = Manager::getBasePath() . '/maestro/UI/templates/result';
-        $template = new MTemplate($path);
+        $template = new MTemplate([]);
         $template->context('result', $this);
-        mdump($this->getMessage());
         return $template->fetch($templateName);
     }
 
@@ -46,4 +45,3 @@ abstract class MResult
     }
 
 }
-

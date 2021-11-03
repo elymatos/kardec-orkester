@@ -24,11 +24,6 @@ if ($count > 0) {
         $date = "{$d}/{$m}/{$y}";
         $itemCode = $item->id . $code[$item->idCollection];
         @endphp
-        @if($header != $item->header)
-        <h3 style="margin-top:8px">{{$item->header}} </h3>
-            @php($header = $item->header)
-        @endif
-
     <div class="item">
         <i class="file alternate outline icon"></i>
         <div class="content">

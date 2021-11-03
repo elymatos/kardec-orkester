@@ -2,8 +2,6 @@
 
 namespace App\Repositories\ORM;
 
-use Orkester\MVC\MRepositoryORM;
-
 class OmekaRepository extends MRepositoryORM
 {
     private array $locale;
@@ -62,6 +60,7 @@ FROM omeka_search_texts s2
 JOIN omeka_files f on (f.id = s2.record_id)
 where (s2.record_type = 'File')
 AND ( {$where2})";
+        mdump($command);
         return $this->executeQuery($command);
     }
 
@@ -192,6 +191,106 @@ and (e5.element_id = 50)
 and (e5.record_type='Collection')
 and (t.record_type = 'Item')
 and (t.locale_code = '{$locale}')
+
+";
+        mdump($command);
+        return $this->executeQuery($command);
+    }
+
+    public function listItemsByVariable(object $data)
+    {
+        $locale = $this->locale[$data->lang];
+        $fieldTag = 't.name';
+        if ($locale == 'fr') {
+            $fieldTag = 't.name_fr';
+        }
+        $orderBy = "it.id";
+        if ($data->q == 'pubDate') {
+            $orderBy = "8 desc, 1 desc";
+        }
+        if ($data->q == 'year') {
+            $orderBy = "4 desc, 1 desc";
+        }
+        if ($data->q == 'tag') {
+            $orderBy = "9, 4 desc, 1 desc";
+        }
+        if ($data->q == 'collection') {
+            $orderBy = "10, 4 desc, 1 desc";
+        }
+        $command = "
+SELECT it.id, t.translation title, e2.text date, substr(e2.text,1,4) year, e3.text identifier,it.collection_id idCollection, e4.text pubDate, concat(substr(e4.text,7,4),'/',substr(e4.text,4,2),'/',substr(e4.text,1,2)) pubDateInv, tags.name tag, e5.text collection
+FROM omeka_multilanguage_translations t
+JOIN omeka_element_texts e2 on (t.record_id = e2.record_id)
+JOIN omeka_element_texts e3 on (t.record_id = e3.record_id)
+JOIN omeka_element_texts e4 on (t.record_id = e4.record_id)
+JOIN omeka_items it on (t.record_id = it.id)
+join omeka_collections c on (it.collection_id = c.id)
+join omeka_element_texts e5 on (e5.record_id = c.id)
+left join (
+select t.id, {$fieldTag} name, r.record_id
+from omeka_tags t join omeka_records_tags r on (r.tag_id = t.id)
+) tags on (tags.record_id = t.record_id)
+where (t.element_id = 50)
+and (it.item_type_id IN (20, 21))
+and (e2.element_id = 40)
+and (e3.element_id = 43)
+and (e4.element_id = 74)
+and (e5.element_id = 50)
+and (e5.record_type='Collection')
+and (t.record_type = 'Item')
+and (t.locale_code = '{$locale}')
+order by {$orderBy}
+
+";
+        mdump($command);
+        return $this->executeQuery($command);
+    }
+
+    public function listItemsByValue(object $data)
+    {
+        $locale = $this->locale[$data->lang];
+        $fieldTag = 't.name';
+        if ($locale == 'fr') {
+            $fieldTag = 't.name_fr';
+        }
+        $condition = "and (it.id is null)";
+        if ($data->q == 'pubDate') {
+            $condition = "and (e4.text = '{$data->value}')";
+        }
+        if ($data->q == 'year') {
+            $condition = "and (substr(e2.text,1,4) = '{$data->value}')";
+        }
+        if ($data->q == 'tag') {
+            $condition = "and (tags.name = '{$data->value}')";
+        }
+        if ($data->q == 'collection') {
+            $condition = "and (e5.text = '{$data->value}')";
+        }
+
+        $command = "
+SELECT it.id, t.translation title, e2.text date, substr(e2.text,1,4) year, e3.text identifier,it.collection_id idCollection, e4.text pubDate, concat(substr(e4.text,7,4),'/',substr(e4.text,4,2),'/',substr(e4.text,1,2)) pubDateInv, tags.name tag, e5.text collection
+FROM omeka_multilanguage_translations t
+JOIN omeka_element_texts e2 on (t.record_id = e2.record_id)
+JOIN omeka_element_texts e3 on (t.record_id = e3.record_id)
+JOIN omeka_element_texts e4 on (t.record_id = e4.record_id)
+JOIN omeka_items it on (t.record_id = it.id)
+join omeka_collections c on (it.collection_id = c.id)
+join omeka_element_texts e5 on (e5.record_id = c.id)
+left join (
+select t.id, {$fieldTag} name, r.record_id
+from omeka_tags t join omeka_records_tags r on (r.tag_id = t.id)
+) tags on (tags.record_id = t.record_id)
+where (t.element_id = 50)
+and (it.item_type_id IN (20, 21))
+and (e2.element_id = 40)
+and (e3.element_id = 43)
+and (e4.element_id = 74)
+and (e5.element_id = 50)
+and (e5.record_type='Collection')
+and (t.record_type = 'Item')
+and (t.locale_code = '{$locale}')
+{$condition}
+order by 3,2
 
 ";
         mdump($command);

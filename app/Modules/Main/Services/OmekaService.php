@@ -3,14 +3,13 @@
 namespace App\Modules\Main\Services;
 
 use App\Repositories\ORM\OmekaRepository;
-use Orkester\MVC\MService;
 
 class OmekaService extends MService
 {
 
-    public function __construct(OmekaRepository $repository)
+    public function __construct()
     {
-        $this->repository = $repository;
+        $this->repository = new OmekaRepository();
         parent::__construct();
     }
 
@@ -202,19 +201,48 @@ class OmekaService extends MService
         return [$list, $listDetail];
     }
 
-    public function listItemsByPublication()
+    public function listItemsByValue()
     {
         mdump($this->data);
-        $items = $this->repository->listItemsByPublication($this->data);
+        $items = $this->repository->listItemsByValue($this->data);
         $list = [];
         foreach ($items as $item) {
             $list[] = (object)[
                 'id' => $item['id'],
                 'title' => $item['title'],
                 'date' => $item['date'],
-                'header' => $item['pubDate'],
                 'idCollection' => $item['idCollection'],
             ];
+        }
+        return $list;
+    }
+
+    public function listItemsByVariable()
+    {
+        mdump($this->data);
+        $items = $this->repository->listItemsByVariable($this->data);
+        $list = [];
+        foreach ($items as $item) {
+            $line = (object)[
+                'id' => $item['id'],
+                'title' => $item['title'],
+                'date' => $item['date'],
+                'idCollection' => $item['idCollection'],
+                'header' => ''
+            ];
+            if ($this->data->q == 'pubDate') {
+                $line->header = $item['pubDate'];
+            }
+            if ($this->data->q == 'year') {
+                $line->header = $item['year'];
+            }
+            if ($this->data->q == 'tag') {
+                $line->header = $item['tag'];
+            }
+            if ($this->data->q == 'collection') {
+                $line->header = $item['collection'];
+            }
+            $list[] = $line;
         }
         return $list;
     }
